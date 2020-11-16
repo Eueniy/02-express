@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const userRouter = require("./contacts/user.router");
+const contactsRouter = require("./contacts/contacts.router");
 
 const PORT = 5000;
 
-module.exports = class UsersServer {
+module.exports = class ContactsServer {
   constructor() {
     this.server = null;
   }
@@ -28,7 +28,7 @@ module.exports = class UsersServer {
   }
 
   initRoutes() {
-    this.server.use("/api/contacts", userRouter);
+    this.server.use("/api/contacts", contactsRouter);
   }
 
   startListening() {

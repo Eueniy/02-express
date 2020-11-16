@@ -7,7 +7,7 @@ const contactsPath = path.join(__dirname, "../../db/contacts.json");
 
 const contacts = JSON.parse(fs.readFileSync(contactsPath, "utf-8"));
 
-class UserController {
+class ContactsController {
   // get contact list
   listContacts(req, res, next) {
     return res.json(contacts);
@@ -24,8 +24,8 @@ class UserController {
     }
   }
 
-  // create new user and add into db
-  createUser(req, res, next) {
+  // create new contact and add into db
+  createNewContact(req, res, next) {
     const newContact = {
       id: uuidv4(),
       name: req.body.name,
@@ -43,29 +43,29 @@ class UserController {
       });
   }
 
-  // Validate new user before create
-  createValidateUser(req, res, next) {
-    const createUserRules = Joi.object().keys({
+  // Validate new contact before create
+  createValidateContact(req, res, next) {
+    const createContactRules = Joi.object().keys({
       name: Joi.string().required(),
       email: Joi.string().required(),
       password: Joi.string().required(),
     });
-    const result = createUserRules.validate(req.body);
+    const result = createContactRules.validate(req.body);
     if (result.error) {
       return res.status(400).json({ message: "missing required name field" });
     }
     next();
   }
 
-  // validate user before patch
-  validateUpdateUser(req, res, next) {
-    const updateUserRules = Joi.object({
+  // validate contact before patch
+  validateUpdateContact(req, res, next) {
+    const updateContactRules = Joi.object({
       name: Joi.string(),
       email: Joi.string(),
       phone: Joi.string(),
     }).min(1);
 
-    const result = updateUserRules.validate(req.body);
+    const result = updateContactRules.validate(req.body);
     if (result.error) {
       return res.status(400).json({ message: "missing fields" });
     }
@@ -113,4 +113,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new ContactsController();
